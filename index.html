@@ -14,7 +14,7 @@
       if (!name || name === '') { return ; }
       var socket = io.connect();
       socket.emit('subscribe', name, function(namespace){
-        io.connect(namespace)
+        io.connect(namespace.trim())
           .on('email', email_hook);
       });
     }
