@@ -20,7 +20,7 @@ if you like you can use a service like [nodejitsu] or [no.de] to host your servi
 
 just point your `cloudmailin` account to `http://cloudmailin.no.de`. now visit `http://cloudmailin.no.de` and follow the instructions.
 
-after subscribing send an email to your cloudmailin email address and see the curl appear.
+after subscribing send an email to your `cloudmailin` email address and see the curl appear.
 
 # roadmap, bugs
 

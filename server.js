@@ -18,7 +18,7 @@ app.listen(cfg.port);
 // , "to": "282f057bb3b492d36e03@cloudmailin.net"}
 function email_route(request, response) {
   var parsed        = request.body
-    , email_address = parsed.to
+    , email_address = encodeURIComponent(parsed.to)
     , subscribers   = channels[email_address]
     ;
 
@@ -45,6 +45,7 @@ function connect_hook (channel_name) {
 io.sockets
   .on('connection', function(socket) {
     socket.on('subscribe', function(channel_name,cb) {
+      channel_name = encodeURIComponent(channel_name);
       var channel = io
             .of('/' + channel_name)
             .on('connection', connect_hook(channel_name));
