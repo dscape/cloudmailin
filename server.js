@@ -8,20 +8,11 @@ var express  = require('express')
 app.configure( function () { app.use(express.bodyParser()); });
 app.listen(cfg.port);
 
-// { "address_id": 1920
-// , "created_at": "2011-09-12T06:06:34-07:00"
-// , "from": "Nuno.Job@marklogic.com"
-// , "mid": "CA93C11F.A951%nuno@marklogic.com"
-// , "size":5215
-// , "status": "500"
-// , "subject": "Testing"
-// , "to": "282f057bb3b492d36e03@cloudmailin.net"}
 function email_route(request, response) {
   var parsed        = request.body
     , email_address = encodeURIComponent(parsed.to)
     , subscribers   = channels[email_address]
     ;
-
   if(subscribers) {
     subscribers.emit('email', parsed);
     response.send('{ok: true}', 201); 
