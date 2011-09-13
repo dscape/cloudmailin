@@ -1,0 +1,12 @@
+{ "name": "cloudmailin"
+, "subdomain": "cloudmailin"
+, "description": "cloudmailin testing service"
+, "homepage": "http://github.com/dscape/cloudmailin"
+, "repository": "git://github.com/dscape/cloudmailin"
+, "version": "0.0.1"
+, "author": "Nuno Job <nunojobpinto@gmail.com> (http://nunojob.com)"
+, "keywords": ["cloudmailin", "email"]
+, "dependencies": {"express": "2.4.x", "socket.io": "0.8.x"}
+, "scripts": {"start": "server.js"}
+, "engines" : { "node": ">=0.3.6" }
+}

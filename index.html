@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <title>cloudmailin curls</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    function email_hook (email) {
+      email = JSON.stringify(email).replace(/"/g, '\\"').replace(/'/g, '"');
+      $('#placeholder').append(
+        $("<pre>curl -vX POST localhost -d '" + email + "'</pre>"));
+    }
+
+    function subscribe(name) {
+      if (!name || name === '') { return ; }
+      var socket = io.connect();
+      socket.emit('subscribe', name, function(namespace){
+        io.connect(namespace)
+          .on('email', email_hook);
+      });
+    }
+    </script>
+  </head>
+  <body>
+    <div id="questions">
+      <h1>What's your email ID?</h1>
+      <p>e.g. <strong>282f057bb3b492d36e03</strong> if your email is 282f057bb3b492d36e03@cloudmailin.net</p>
+      <input type="text" id="subscribe"/>
+      <p>Just <strong>click somewhere else</strong> in the page to get started!</p>
+    </div>
+    <h1>cURLs</h1>
+    <p>Replace localhost with your server</p>
+    <div id="placeholder">
+    </div>
+    <script>
+    $(document).ready(function() {
+      $('#subscribe').focusout(function() { 
+        subscribe($('#subscribe').val());
+        $('#questions').hide('fast');
+      });
+    });
+    </script>
+  </body>
+</html>
