@@ -4,10 +4,9 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-    function email_hook (email) {
-      email = JSON.stringify(email).replace(/"/g, '\\"').replace(/'/g, '"');
+    function email_hook (parts) {
       $('#placeholder').append(
-        $("<pre>curl -vX POST localhost -d '" + email + "'</pre>"));
+        $("<pre>curl -vv " + parts + " localhost</pre>"));
     }
 
     function subscribe(name) {

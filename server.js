@@ -1,5 +1,7 @@
 var express  = require('express')
-  , app      = express.createServer()
+  , form     = require('connect-form')
+  , _        = require('underscore')
+  , app      = express.createServer(form({ keepExtensions: true }))
   , io       = require('socket.io').listen(app)
   , cfg      = require('./cfg/server')
   , channels = {}
@@ -8,18 +10,38 @@ var express  = require('express')
 app.configure( function () { app.use(express.bodyParser()); });
 app.listen(cfg.port);
 
+/*
+message
+plain
+html
+to
+disposable
+from
+subject
+signature
+ */
 function email_route(request, response) {
-  var parsed        = request.body
-    , email_address = encodeURIComponent(parsed.to)
-    , subscribers   = channels[email_address]
-    ;
-  if(subscribers) {
-    subscribers.emit('email', parsed);
-    response.send('{ok: true}', 201); 
-  }
-  else {
-    response.send('{reason: "No subscribers", error: "no_subscribers"}', 200);
-  }
+  request.form.complete( function(errors, fields, files){
+    if (errors) { return next(errors); }
+
+    var email_address = encodeURIComponent(fields.to)
+      , subscribers   = channels[email_address]
+      , parts
+      ;
+
+    if(subscribers) {
+      parts = _.map(_.keys(fields), 
+        function (k) { 
+          var encoded_field = fields[k].replace(/"/g, '\\"').replace(/'/g, '"');
+          return "-F '" + k + '=' + encoded_field  + "'";
+      }).join(' ');
+      subscribers.emit('email', parts);
+      response.send('{ok: true}', 201); 
+    }
+    else {
+      response.send('{reason: "No subscribers", error: "no_subscribers"}', 200);
+    }
+  });
 }
 
 function app_route(request,response) {
