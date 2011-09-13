@@ -7,6 +7,6 @@
 , "author": "Nuno Job <nunojobpinto@gmail.com> (http://nunojob.com)"
 , "keywords": ["cloudmailin", "email"]
 , "dependencies": {"express": "2.4.x", "socket.io": "0.8.x"}
-, "scripts": {"start": "server.js"}
+, "scripts": {"start": "node ./server.js"}
 , "engines" : { "node": ">=0.3.6" }
 }
