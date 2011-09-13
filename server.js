@@ -10,16 +10,6 @@ var express  = require('express')
 app.configure( function () { app.use(express.bodyParser()); });
 app.listen(cfg.port);
 
-/*
-message
-plain
-html
-to
-disposable
-from
-subject
-signature
- */
 function email_route(request, response) {
   request.form.complete( function(errors, fields, files){
     if (errors) { return next(errors); }

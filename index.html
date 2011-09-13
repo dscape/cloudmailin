@@ -27,13 +27,16 @@
       <p>Just <strong>click somewhere else</strong> in the page to get started!</p>
     </div>
     <h1>cURLs</h1>
+    <h2 id="channel"></h2>
     <p>Replace localhost with your server</p>
     <div id="placeholder">
     </div>
     <script>
     $(document).ready(function() {
-      $('#subscribe').focusout(function() { 
-        subscribe($('#subscribe').val());
+      $('#subscribe').focusout(function() {
+        var channel_name = $('#subscribe').val();
+        subscribe(channel_name);
+        $("#channel").append(channel_name);
         $('#questions').hide('fast');
       });
     });
