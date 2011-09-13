@@ -7,7 +7,6 @@ var express  = require('express')
   , channels = {}
   ;
 
-app.configure( function () { app.use(express.bodyParser()); });
 app.listen(cfg.port);
 
 function email_route(request, response) {
