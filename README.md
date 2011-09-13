@@ -31,7 +31,7 @@ check [issue]
 everyone is welcome to contribute. patches, bugfixes, new features
 
 1. create an [issue] on github so the community can comment on your idea
-2. fork `nano` in github
+2. fork `cloudmailin` in github
 3. create a new branch `git checkout -b my_branch`
 4. create tests for the changes you made
 5. make sure you pass both existing and newly inserted tests
