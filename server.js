@@ -10,6 +10,7 @@ var express  = require('express')
 app.listen(cfg.port);
 
 function email_route(request, response) {
+  console.log("what")
   request.form.complete( function(errors, fields, files){
     console.log(JSON.stringify(fields))
     if (errors) { return next(errors); }
