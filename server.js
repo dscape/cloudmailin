@@ -11,6 +11,7 @@ app.listen(cfg.port);
 
 function email_route(request, response) {
   request.form.complete( function(errors, fields, files){
+    console.log(JSON.stringify(fields))
     if (errors) { return next(errors); }
 
     var email_address = encodeURIComponent(fields.to)
