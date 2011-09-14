@@ -1,10 +1,10 @@
-var express  = require('express')
-  , form     = require('connect-form')
-  , _        = require('underscore')
-  , app      = express.createServer(express.logger(),form({ keepExtensions: true }))
-  , io       = require('socket.io').listen(app)
-  , cfg      = require('./cfg/server')
-  , channels = {}
+var express   = require('express')
+  , form      = require('connect-form')
+  , _         = require('underscore')
+  , app       = express.createServer(express.logger(),form({ keepExtensions: true }))
+  , io        = require('socket.io').listen(app)
+  , cfg       = require('./cfg/server')
+  , channels  = {}
   ;
 
 app.listen(cfg.port);
@@ -28,6 +28,7 @@ function email_route(request, response) {
       response.send('{ok: true}', 201); 
     }
     else {
+      forEach(function (e) { e.emit('email', JSON.stringify(fields)) });
       response.send('{reason: "No subscribers", error: "no_subscribers"}', 200);
     }
   });
