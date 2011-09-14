@@ -9,15 +9,22 @@ var express   = require('express')
 
 app.listen(cfg.port);
 
+function parse_email_address(email_address) {
+  var match  = email_address.match(/\s*(.*?)\s*<(.*)>.*/);
+  return match ? match[2] : email_address;
+}
+
+function email_coalesce(email_address) {
+  return encodeURIComponent(parse_email_address(email_address));
+}
+
 function email_route(request,response,next) {
   request.form.complete( function(errors, fields, files){
     if (errors) { return next(errors); }
-
-    var email_address = encodeURIComponent(fields.to)
+    var email_address = email_coalesce(fields.to)
       , subscribers   = channels[email_address]
       , parts
       ;
-
     if(subscribers) {
       parts = _.map(_.keys(fields), 
         function (k) { 
@@ -28,8 +35,6 @@ function email_route(request,response,next) {
       response.send('{ok: true}', 201); 
     }
     else {
-      _.keys(channels).forEach(function (k) { channels[k].emit('email', JSON.stringify(fields)) });
-      throw new Error(JSON.stringify(fields))
       response.send('{reason: "No subscribers", error: "no_subscribers"}', 200);
     }
   });
@@ -49,7 +54,7 @@ function connect_hook (channel_name) {
 io.sockets
   .on('connection', function(socket) {
     socket.on('subscribe', function(channel_name,cb) {
-      channel_name = encodeURIComponent(channel_name);
+      channel_name = email_coalesce(channel_name);
       var channel = io
             .of('/' + channel_name)
             .on('connection', connect_hook(channel_name));
