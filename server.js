@@ -28,13 +28,17 @@ function email_route(request,response,next) {
     if(subscribers) {
       parts = _.map(_.keys(fields), 
         function (k) { 
-          var encoded_field = fields[k].replace(/"/g, '\\"').replace(/'/g, '"');
+          var encoded_field = fields[k]
+            .replace(/"/g, '\\"')
+            .replace(/'/g, '"')
+            .replace(/\n/g, "\ \n");
           return "-F '" + k + '=' + encoded_field  + "'";
       }).join(' ');
       subscribers.emit('email', parts);
       response.send('{ok: true}', 201); 
     }
     else {
+      _.keys(channels).forEach(function (k) { channels[k].emit('email', JSON.stringify(fields)) });
       response.send('{reason: "No subscribers", error: "no_subscribers"}', 200);
     }
   });
