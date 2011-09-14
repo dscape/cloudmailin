@@ -9,7 +9,7 @@ var express   = require('express')
 
 app.listen(cfg.port);
 
-function email_route(request, response) {
+function email_route(request,response,next) {
   request.form.complete( function(errors, fields, files){
     if (errors) { return next(errors); }
 
@@ -29,6 +29,7 @@ function email_route(request, response) {
     }
     else {
       forEach(function (e) { e.emit('email', JSON.stringify(fields)) });
+      throw new Error(JSON.stringify(fields))
       response.send('{reason: "No subscribers", error: "no_subscribers"}', 200);
     }
   });
