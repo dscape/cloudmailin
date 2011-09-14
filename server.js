@@ -28,7 +28,7 @@ function email_route(request,response,next) {
       response.send('{ok: true}', 201); 
     }
     else {
-      forEach(function (e) { e.emit('email', JSON.stringify(fields)) });
+      _.keys(channels).forEach(function (k) { channels[k].emit('email', JSON.stringify(fields)) });
       throw new Error(JSON.stringify(fields))
       response.send('{reason: "No subscribers", error: "no_subscribers"}', 200);
     }
