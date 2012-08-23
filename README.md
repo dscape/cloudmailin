@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/dscape/cloudmailin.png)](http://travis-ci.org/dscape/cloudmailin)
 # cloudmailin
 
 simple service to test the [cloudmailin] service for development. will intercept emails and return them to you so you can `curl` them locally to your app while developing.
